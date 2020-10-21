@@ -162,10 +162,12 @@ footer div {
 
 .circular--square {
   border-radius: 50%;
-  border: 3px solid #ddd;
+  border-style: solid;
+  border: 3px solid #eee;
 }
 
 .specific-circular--square > div > img {
   border-radius: 50%;
-  border: 3px solid #ddd;
+  border-style: solid;
+  border: 3px solid #eee;
 }
