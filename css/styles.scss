@@ -52,7 +52,7 @@ h1 {
 
   padding: 0;
   background-color: $body-bg;
-  opacity: 0.92;
+  opacity: 00.52;
 
   #lang-select {
 
@@ -70,7 +70,7 @@ h1 {
 
   .dropdown-menu {
     border: none;
-    margin-right: .9375rem;
+    margin-right: 0.5375rem;
   }
 
   .dropdown-item {
@@ -162,8 +162,10 @@ footer div {
 
 .circular--square {
   border-radius: 50%;
+  border: 3px solid #ddd;
 }
 
 .specific-circular--square > div > img {
   border-radius: 50%;
+  border: 3px solid #ddd;
 }

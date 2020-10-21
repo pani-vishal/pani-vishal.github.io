@@ -26,6 +26,12 @@ layout: compress
 </section>
 {% endif %}
 
+{% if site.data.blogs.projects.size > 0 %}
+<section id="blogs" class="container">
+{% include blogs.html %}
+</section>
+{% endif %}
+
 {% if site.data.talks.talks.size > 0 %}
 <section id="talks" class="container">
 {% include talks.html %}

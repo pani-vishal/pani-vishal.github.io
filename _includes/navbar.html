@@ -18,6 +18,9 @@
         {% if site.data.projects.projects.size > 0 %}
         <li class="nav-item"><a class="nav-link" href="#projects">{{ site.data.projects.heading.[page.lang] | escape }}</a></li>
         {% endif %}
+        {% if site.data.blogs.projects.size > 0 %}
+        <li class="nav-item"><a class="nav-link" href="#blogs">{{ site.data.blogs.heading.[page.lang] | escape }}</a></li>
+        {% endif %}
         <!-- {% if site.data.talks.talks.size > 0 %}
         <li class="nav-item"><a class="nav-link" href="#talks">{{ site.data.talks.heading.[page.lang] | escape }}</a></li>
         {% endif %} -->

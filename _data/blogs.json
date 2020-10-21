@@ -1,0 +1,52 @@
+{
+  "heading" : {
+    "en" : "Blogs"
+  },
+  
+  "role" : {
+    "en" : "Role"
+  },
+  
+  "type" : {
+    "en" : "Tags"
+  },
+  
+  "link" : {
+    "en" : "Link"
+  },
+  
+  "sourcecode" : {
+    "en" : "Source Code"
+  },
+
+  
+  
+  "projects" : [
+    {
+      "title": "Semantically Segmenting 3D Meshes Using Graph Convolutional Networks.",
+      "date": "<i>Coming Soon!</i>",
+      "status": "in_progress",
+      "thumbnail": "blogs/coseg.jpg",
+      "type": "#python #DeepLearning #GeometricLearning #dgl",
+      "priority": 5,
+      "caption": {
+        "en": "This blog will address the semantic segmentation 3D meshes provided by the COSEG dataset by using graph convolutional networks."
+      },
+      "link": "#blogs",
+      "downloads": []
+    },
+    {
+      "title": "Graph Convolutional Networks: A Theoretical Deep Dive.",
+      "date": "21st October 2020",
+      "status": "done",
+      "thumbnail": "blogs/gcn.png",
+      "type": "#python #DeepLearning #GeometricLearning",
+      "priority": 4,
+      "caption": {
+        "en": "Blogs delves into the structure, underlying principles, and forward propagation rule of graph convolutional networks."
+      },
+      "link": "https://dev.to/panivishal/graph-convolutional-networks-a-theoretical-deep-dive-3gb2",
+      "downloads": []
+    }
+  ]
+}
