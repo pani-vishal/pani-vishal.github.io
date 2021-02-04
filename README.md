@@ -1,1 +1,1 @@
-Hosted on https://www.pani-vishal.github.io/
+Hosted on https://pani-vishal.github.io/en/
