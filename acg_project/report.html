@@ -1,0 +1,193 @@
+**Final Project Report**
+
+Student name: Vishal Pani
+
+Sciper number: 335625
+
+Late Days Remaining: <s style="color:red">2</s> 0
+
+Final render(s)
+============
+My render is called "Midnight Snack". The loop is basically the chocolate glacing on top of the donut icing, which also acts as the road for the car. With this image, I wanted to portray that sudden craving for sweet snacks that I sometimes have during the late-night hours.
+Making the donut float is just a way to emphasize my craving :P!
+
+<div class="twentytwenty-container">
+    <img src="main_scene.png" alt="Path Tracer">
+    <img src="main_scene_vol.png" alt="Volumetric Tracer">
+</div>
+
+For the final render, I could not decide between the above two images. The non-fog (left) image is cleaner than the image with thin fog. However, the image with thin-fog gives a better "midnight" aesthetic.
+
+Motivation
+==========
+
+For this render I was motivated by different sources. For the loop aspect of the project I wanted to incorporate the road from King Kai’s planet from an anime called Dragon Ball Z. Also, as this is my first rigorous graphics course I wanted to somehow pay homage to contemporary animated films. So I decided to incorporate an aspect of the pixar lamp and the vibrant color schemes used by such movies.
+
+<img src="king_kai_planet.png" alt="King Kai Planet">
+
+Feature list
+============
+
+<table>
+    <tr>
+        <th>Feature</th>
+        <th>Standard point count</th>
+        <th>Adjusted point count</th>
+    </tr>
+    <tr>
+        <td><b>Depth of Field</b></td>
+        <td>10</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td><b>Texture</b></td>
+        <td>10</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td><b>Mesh design</b></td>
+        <td>10</td>
+        <td>10</td>
+    </tr>
+    <tr>
+        <td><b>Image Based Lighting</b></td>
+        <td>30</td>
+        <td>25</td>
+    </tr>
+
+    <tr>
+        <td><b>Homogenous Participating Media</b></td>
+        <td>30</td>
+        <td>25</td>
+    </tr>
+    <tr>
+        <td><strong>Total</strong></td>
+        <td>90</td>
+        <td>80</td>
+    </tr>
+</table>
+
+
+
+Depth of Field (10 pts)
+=========
+
+Implementing Depth of Field (DoF) significantly increases the realism of a given scene. I implemented DoF following the theory mentioned in <a href="https://pbr-book.org/3ed-2018/Camera_Models/Projective_Camera_Models#TheThinLensModelandDepthofField">PBRv3 Ch. 6.2</a>. 
+Since, I just had to add two extra parameters (focal distance and aperture) to the perspective camera, I implemented it on top of <b>src/perspective.cpp</b>. If we don't pass these parameters while initializing the perspective camera in the scene parameters, the camera will not produce any DoF.
+
+To validate my implemetation I created a simple scene in Blender with 4 cubes. The distances of these cubes from the camera is shown below (the distances are measured using the Measure tool in Blender).
+
+<img src="dof/blender.png" alt="DoF Blender Scene">
+
+Here, I focus on the first and last cube from the right by setting the focal distance as measured with Blender. The aperture is set to 2.
+<div class="twentytwenty-container">
+    <img src="dof/1.png" alt="First Cube">
+    <img src="dof/4.png" alt="Fourth Cube">
+</div>
+
+Mesh Design (10 pts)
+=========
+I wanted to design the subject of my scene myself. Since I had limited Blender knowledge, I followed <a href="https://www.youtube.com/watch?v=nIoXOplUvAw&list=PLjEaoINr3zgFX8ZsChQVQsuDSjEqdWMAD&ab_channel=BlenderGuru">Blender Guru's</a> tutorial until the 10th video. It covered the basics of Blender and looked over some advanced concepts like Blender Nodes. Blender Nodes was used to design the sprinkles.
+Also, I added the road (which is the loop of my scene) which resembles chocolate glacing. 
+<div class="twentytwenty-container">
+    <img src="mesh_design/main_scene.png" alt="Main Scene">
+    <img src="mesh_design/donut.png" alt="Donut">
+</div>
+
+To add a bit of character to my scene, I also designed some cream smudges, that indicates that someone wasn't patient enough and wanted to taste the icing ASAP :P. I followed <a href="https://www.youtube.com/watch?v=2xBGERnxKys&ab_channel=SonnyNguyen">Sonny Nguyen's</a> tutorial on YouTube to model this.
+<div class="twentytwenty-container">
+    <img src="mesh_design/main_scene.png" alt="Main Scene">
+    <img src="mesh_design/cream_smudge.png" alt="Creame Smudge">
+</div>
+
+Textures (10 pts)
+=========
+Textures, are quite prominent in my final scene. I have implemented image textures for this project. The main task was to implement the <b>uv_mapping()</b> function that correctly maps the uv coordinate of the image texture to the current intersection.
+Also, the image of the texture is in sRGB space and need to be converted to linearRGB space, or else the render produces flat colours for the texture.
+
+The nice thing about image textures is that they validate themselves. They just need to map correctly! For some examples, here are the textures that I used for the donut which were produced using Blender:
+
+<figure >
+    <img src="textures/donut_base.png" alt="Donut base", width="100%">
+    <figcaption style="text-align:center">Image Texture for the donut base.</figcaption>
+</figure>
+
+<figure >
+    <img src="textures/icing.png" alt="Icing", width="100%">
+    <figcaption style="text-align:center">Image Texture for the icing.</figcaption>
+</figure>
+
+<figure >
+    <img src="mesh_design/donut.png" alt="Donut">
+    <figcaption style="text-align:center">Rendering of the texture-mapped donut.</figcaption>
+</figure>
+
+
+
+
+
+Image Based Lighting (25 pts)
+=========
+Image Based Lighting (IBL) adds a lot of realism to a scene, however, it is not significant in my scene. The implementation can be found in <b>src/env_light.cpp</b>. For the image probe, I use .exr images as input. 
+To sample the probe efficiently, I implemented Hierarchical Sample Warping as instructed in the hacker point section of assignment 3. Now, to get the functions of the environment lights working properly, I follow the theory mentioned in <a href="https://pbr-book.org/3ed-2018/Light_Transport_I_Surface_Reflection/Sampling_Light_Sources">PBRv3</a>.
+
+To validate Hierarchical Sample Warping, first, I created several 4x4 images with random values and used warptest for the validation.
+
+<img src="ibl/hier.png" alt="Main Scene">
+
+However, when using an actual light probe (here, uffizi-large, size: 1024x1024) the test fails, even though the expected probability densities and produced probability densities look quite similar.
+Also, note that the image is rotated in warptest but that should not cause any issue in evaluating the densities.
+
+<img src="ibl/uffizi-large.png" alt="Main Scene">
+
+The following is a scene focusing on a dielectric sphere with IBL using the volumetric integrator (without the thin fog medium) and using the <a href="https://vgl.ict.usc.edu/Data/HighResProbes/">Uffizi-large</a> light probe. Also, the fov of the camera is set to 90 (hence, the curved pillars).
+
+<img src="ibl/ibl_test.png" alt="Main Scene">
+
+Homogenous Participating Media (25 pts)
+=========
+Finally, I have also implemented Homogeneous Participating Media to simulate thin fog which is spread throughout the scene. I hoped this would convey a foggy night aesthetic to my scene. As for the volumetric integrator,
+I closely followed <a href="https://pbr-book.org/3ed-2018/Light_Transport_II_Volume_Rendering/Volumetric_Light_Transport">PBRv3's</a> implemetation of VolPathIntegrator, the code is present in <b>src/volintegrator.cpp</b>. For the phase function, I implemented Henyey-Greenstein phase function as mentioned in <a href="https://pbr-book.org/3ed-2018/Volume_Scattering/Phase_Functions">PBR</a>.
+The classes handling the medium, and medium interface are implemented in  <b>include/nori/medium.h</b> and <b>src/homogenous.cpp</b>. The medium is parametrized with the absorption (sigma_a) and scattering factor (sigma_s) respectively. It is also parametrized by the asymmetry factor g, which is passed to the Henyey-Greenstein phase function.
+
+My current implementation only handles a thin fog present in the entire scene. But I feel have implemented all the necessary components to extend it multiple media easily.
+
+To validate my implementation I have set up a simple scene containing a low-poly sphere, and a light source on top of it.   
+For the base case, sigma_a = sigma_s = 0.01 and g = 0 (isotropic medium). All the images are rendered at 400x300.
+
+On decreasing sigma_s to 0.001 we see that the "god rays" are less visibible, as the scattering capability of the medium has decreased.
+<div class="twentytwenty-container">
+    <img src="vol/voltest_0.01_0.01.png" alt="First Cube">
+    <img src="vol/voltest_0.001_0.01.png" alt="Fourth Cube">
+</div>
+
+Next we decrease sigma_a to 0.001 from the base case. We see that the image is more brighter, as the medium absorbs lesser.
+
+<div class="twentytwenty-container">
+    <img src="vol/voltest_0.01_0.01.png" alt="First Cube">
+    <img src="vol/voltest_0.01_0.001.png" alt="Fourth Cube">
+</div>
+
+Also, in the final scene, we can see that adding thing fog to the scene, produces god rays from the lamp as indicated by the blue lines:
+<div class="twentytwenty-container">
+    <img src="vol/main_scene.png" alt="First Cube">
+    <img src="vol/main_scene_vol.png" alt="Fourth Cube">
+</div>
+Remaining Credits
+========
+<a href="https://sketchfab.com/3d-models/fallout-car-2-cf54e5b166644fc7ade7bbaac502a04f">Renafox</a>: Fallout car model
+
+<a href="https://sketchfab.com/3d-models/simple-dining-table-a6deba91a7f9435082369e33f8db0dd6">DailyArt</a>: Dining table model
+
+<a href="https://sketchfab.com/3d-models/lamp-c85c7a1dbb724e9ea1d90abd6445fad4">Aaron Beller</a>: Lamp
+
+<!-- Slider -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="./resources/jquery.event.move.js"></script>
+<script src="./resources/jquery.twentytwenty.js"></script>
+<link href="./resources/offcanvas.css" rel="stylesheet">
+<link href="./resources/twentytwenty.css" rel="stylesheet" type="text/css" />
+<script>var markdeepOptions = {onLoad: function() {$(".twentytwenty-container").twentytwenty({default_offset_pct: 0.5, move_slider_on_hover: true});} };</script>
+<!-- Markdeep: -->
+<script src="https://morgan3d.github.io/markdeep/latest/markdeep.min.js?" charset="utf-8"></script>
+<script>window.alreadyProcessedMarkdeep||(document.body.style.visibility="visible")</script>
